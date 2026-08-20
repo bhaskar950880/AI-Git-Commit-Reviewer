@@ -56,3 +56,33 @@ files = get_changed_files(commit)
 
 for file in files:
     print(file["change_type"], ":", file["file"])
+
+
+def get_commit_diff(commit):
+    if not commit.parents:
+        return []
+
+    parent = commit.parents[0]
+
+    diffs = parent.diff(commit, create_patch=True)
+
+    commit_diffs = []
+
+    for diff in diffs:
+        commit_diffs.append({
+            "file": diff.a_path or diff.b_path,
+            "change_type": diff.change_type,
+            "diff": diff.diff.decode("utf-8", errors="replace")
+        })
+
+    return commit_diffs
+
+print("\n===== CODE DIFF =====")
+
+diffs = get_commit_diff(commit)
+
+for item in diffs:
+    print("\nFILE:", item["file"])
+    print("CHANGE TYPE:", item["change_type"])
+    print("-" * 60)
+    print(item["diff"])

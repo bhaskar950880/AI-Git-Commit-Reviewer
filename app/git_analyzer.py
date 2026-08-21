@@ -18,21 +18,6 @@ def get_commit_info(commit):
     }
 
 
-# Testing
-repo_path = r"D:\BookBazaar"
-
-repo = open_repository(repo_path)
-
-commit = get_latest_commit(repo)
-
-info = get_commit_info(commit)
-
-print("\n===== LATEST COMMIT =====")
-print("Commit ID :", info["commit_id"])
-print("Author    :", info["author"])
-print("Message   :", info["message"])
-print("Date      :", info["date"])
-
 def get_changed_files(commit):
     if not commit.parents:
         return []
@@ -50,20 +35,12 @@ def get_changed_files(commit):
 
     return changed_files
 
-print("\n===== CHANGED FILES =====")
-
-files = get_changed_files(commit)
-
-for file in files:
-    print(file["change_type"], ":", file["file"])
-
 
 def get_commit_diff(commit):
     if not commit.parents:
         return []
 
     parent = commit.parents[0]
-
     diffs = parent.diff(commit, create_patch=True)
 
     commit_diffs = []
@@ -76,13 +53,3 @@ def get_commit_diff(commit):
         })
 
     return commit_diffs
-
-print("\n===== CODE DIFF =====")
-
-diffs = get_commit_diff(commit)
-
-for item in diffs:
-    print("\nFILE:", item["file"])
-    print("CHANGE TYPE:", item["change_type"])
-    print("-" * 60)
-    print(item["diff"])

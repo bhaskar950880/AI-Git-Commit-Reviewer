@@ -4,3 +4,4 @@ __pycache__/
 .env
 .vscode/
 review_data.json
+node_modules/

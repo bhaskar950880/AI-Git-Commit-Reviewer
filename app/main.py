@@ -36,6 +36,9 @@ for file in files:
 
     language = detect_language(file["file"])
 
+    # Add language information to JSON data
+    file["language"] = language
+
     print(
         file["change_type"],
         ":",
@@ -52,6 +55,9 @@ diffs = get_commit_diff(commit)
 for item in diffs:
 
     language = detect_language(item["file"])
+
+    # Add language information to each diff
+    item["language"] = language
 
     print("\nFILE:", item["file"])
     print("LANGUAGE:", language)
